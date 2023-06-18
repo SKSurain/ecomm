@@ -3,7 +3,8 @@ import { Navbar } from '../components/Navbar'
 import { Announcement } from '../components/Announcement'
 import { Slider } from '../components/Slider'
 import { Categories } from '../components/Categories'
-
+import { Products } from '../components/Products'
+import { Newsletter } from '../components/Newsletter'
 export default function Homepage() {
     return (
         <div>
@@ -11,6 +12,8 @@ export default function Homepage() {
             <Navbar />
             <Slider />
             <Categories />
+            <Products />
+            <Newsletter />
         </div>
     )
 }
