@@ -5,6 +5,7 @@ import { Slider } from '../components/Slider'
 import { Categories } from '../components/Categories'
 import { Products } from '../components/Products'
 import { Newsletter } from '../components/Newsletter'
+import { Footer } from '../components/Footer'
 export default function Homepage() {
     return (
         <div>
@@ -14,6 +15,7 @@ export default function Homepage() {
             <Categories />
             <Products />
             <Newsletter />
+            <Footer />
         </div>
     )
 }
