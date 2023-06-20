@@ -9,8 +9,8 @@ import { Footer } from '../components/Footer'
 export default function Homepage() {
     return (
         <div>
-            <Navbar />
             <Announcement />
+            <Navbar />
             <Slider />
             <Categories />
             <Products />

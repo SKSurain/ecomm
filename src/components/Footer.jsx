@@ -1,8 +1,12 @@
 import { EmailOutlined, Facebook, Instagram, LocationOnOutlined, PhoneAndroidOutlined, Pinterest, Twitter } from '@mui/icons-material';
 import styled from 'styled-components'
+import { mobile } from '../responsive'
+
 
 const Container = styled.div`
-display:flex;`;
+display:flex;
+${mobile({ flexDirection: "column" })};
+`;
 const Left = styled.div`
 flex: 1;
 display:flex;
@@ -28,6 +32,7 @@ cursor:pointer;`
 const Center = styled.div`
 flex: 1;
 padding:20px;
+${mobile({ display: "none" })};
 `;
 
 const Title = styled.h3`
@@ -45,7 +50,8 @@ margin-bottom: 10px;`;
 
 const Right = styled.div`
 flex: 1;
-padding:20px;`;
+padding:20px;
+${mobile({ backgroundColor: "#eee" })};`;
 const ContactItem = styled.div`
 display: flex; 
 align-items: center;

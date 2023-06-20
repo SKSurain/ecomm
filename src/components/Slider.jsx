@@ -2,13 +2,15 @@ import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material"
 import styled from "styled-components"
 import { sliderItems } from "../data"
 import { useState } from "react"
+import { mobile } from "../responsive"
 const Container = styled.div`
 height:100vh;
 widht: 100%;
 display:flex;
 position:relative;
 overflow: hidden;
-margin: 10px 0px 0px 0px;`
+margin: 10px 0px 0px 0px;
+${mobile({ display: "none" })};`
 
 const Wrapper = styled.div`
 height:100%;
