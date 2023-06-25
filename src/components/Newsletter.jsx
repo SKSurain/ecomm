@@ -39,13 +39,17 @@ flex: 1;
 border: none;
 background-color: teal;
 color:white;`;
+function handleChange() {
+
+}
 export const Newsletter = () => {
+
     return (
         <Container>
             <Title>Newletter</Title>
             <Description>Get our latest update on clothing we are about to release. Ofcourse it comes with great and worthy discounts as well.</Description>
             <InputContainer>
-                <Input value={"Your Email"} />
+                <Input value={"Your Email"} onChange={handleChange} />
                 <Button><Send /></Button>
             </InputContainer>
         </Container>
