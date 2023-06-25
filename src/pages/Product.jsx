@@ -5,6 +5,10 @@ import { Newsletter } from '../components/Newsletter'
 import { Footer } from '../components/Footer'
 import { mobile } from '../responsive'
 import { Add, Remove } from '@mui/icons-material';
+import { useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { publicRequest } from '../requestMethods'
+import axios from 'axios'
 
 
 const Container = styled.div``;
@@ -89,35 +93,57 @@ font-weight: 500;
 `;
 
 export const Product = () => {
+    const location = useLocation();
+    const id = location.pathname.split("/")[2];
+    const [product, setProduct] = useState({});
+
+    useEffect(() => {
+        const getProduct = async () => {
+            try {
+                const res = await publicRequest.get("products/find/" + id)
+                setProduct(res.data);
+            } catch (err) {
+
+            }
+        }
+        getProduct();
+    }, [id])
     return (
         <Container>
             <Navbar />
             <Announcement />
             <Wrapper>
                 <ImageContainer>
-                    <Image src="https://images.unsplash.com/photo-1577660002965-04865592fc60?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" />
+                    <Image src={product.img ?
+                        product.img
+                        :
+                        "https://images.unsplash.com/photo-1577660002965-04865592fc60?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"} />
                 </ImageContainer>
                 <InfoContainer>
-                    <Title>Denim Jacket</Title>
-                    <Description>This navy blue jacket will make you look stylish, strong and beautiful.</Description>
-                    <Price>RM 150.00</Price>
+                    <Title>{product.title ? product.title : "Denim Jacket"}</Title>
+                    <Description>{product.description ?
+                        product.description :
+                        "This navy blue jacket will make you look stylish, strong and beautiful."}</Description>
+                    <Price>{product.price ?
+                        product.price :
+                        "RM 150.00"}
+                    </Price>
                     <FilterContainer>
                         <Filter>
                             <FilterTitle>Color</FilterTitle>
-                            <FilterColor color="black"></FilterColor>
-                            <FilterColor color="darkblue"></FilterColor>
-                            <FilterColor color="gray"></FilterColor>
-                            <FilterColor color="green"></FilterColor>
+                            {product.color ?
+                                product.color.map(c => (
+                                    <FilterColor color={c} key={c}></FilterColor>
+                                )) :
+                                <FilterColor color='black'></FilterColor>}
                         </Filter>
                         <Filter>
                             <FilterTitle>Size</FilterTitle>
                             <FilterSize>
-                                <FilterSize></FilterSize>
-                                <FilterSizeOption>XS</FilterSizeOption>
-                                <FilterSizeOption>S</FilterSizeOption>
-                                <FilterSizeOption>M</FilterSizeOption>
-                                <FilterSizeOption>L</FilterSizeOption>
-                                <FilterSizeOption>XL</FilterSizeOption>
+                                {product.size ?
+                                    product.size.map(s => (
+                                        <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                                    )) : <FilterSizeOption>S</FilterSizeOption>}
                             </FilterSize>
                         </Filter>
                     </FilterContainer>
