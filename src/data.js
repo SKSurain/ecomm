@@ -27,19 +27,19 @@ export const categories = [
         id: 1,
         img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
         title: "JACKETS",
-        category: "jacket"
+        category: "JACKET"
     },
     {
         id: 2,
         img: "https://images.unsplash.com/photo-1526476148966-98bd039463ea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80",
         title: "HOODIES",
-        category: "hoodies"
+        category: "HOODIES"
     },
     {
         id: 3,
         img: "https://images.unsplash.com/photo-1552337557-45792b252a2e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
         title: "SUNGLASSES",
-        category: "sunglasses"
+        category: "SUNGLASSES"
     }
 ]
 
