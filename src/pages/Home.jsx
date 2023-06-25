@@ -13,7 +13,7 @@ export default function Homepage() {
             <Navbar />
             <Slider />
             <Categories />
-            <Products />
+            <Products category="" filters="" sort="" />
             <Newsletter />
             <Footer />
         </div>
