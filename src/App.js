@@ -33,6 +33,7 @@ function App() {
             {user ? <Navigate to="/" /> : <Login />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/product" element={<Product />} />
+          <Route path="/product/:id" element={<Product />} />
         </Routes>
       </Router>
     </>
