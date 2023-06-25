@@ -1,6 +1,10 @@
 import { FavoriteBorderOutlined, SearchOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import React from 'react'
-import styled from 'styled-components'
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import { useLocation } from 'react-router-dom'
+
+
 
 const Info = styled.div`
 width: 100%; 
@@ -59,6 +63,8 @@ transition: all 0.1s ease;
 }`;
 
 export const Product = ({ item }) => {
+    const location = useLocation();
+    const category = location.pathname.split("/")[2];
     return (
         <Container>
             <Circle />
@@ -68,12 +74,14 @@ export const Product = ({ item }) => {
                     <ShoppingCartOutlined />
                 </Icon>
                 <Icon>
-                    <SearchOutlined />
+                    <NavLink to={`/product/${item._id}`} >
+                        <SearchOutlined />
+                    </NavLink>
                 </Icon>
                 <Icon>
                     <FavoriteBorderOutlined />
                 </Icon>
             </Info>
-        </Container>
+        </Container >
     )
 }
