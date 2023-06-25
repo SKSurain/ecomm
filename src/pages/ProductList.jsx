@@ -35,7 +35,7 @@ const Option = styled.option``;
 export const ProductList = () => {
 
     const location = useLocation();
-    const category = location.pathname.split("/")[2];
+    const category = location.pathname.split("/")[2] ? location.pathname.split("/")[2] : "";
     const [filters, setFilters] = useState({})
     const [sort, setSort] = useState("newest")
 
@@ -59,7 +59,7 @@ export const ProductList = () => {
         <Container>
             <Navbar />
             <Announcement />
-            <Title>Jackets</Title>
+            <Title>{category.toUpperCase()}</Title>
             <FilterContainer>
                 <Filter>
                     <FilterText>Filter Products:</FilterText>
