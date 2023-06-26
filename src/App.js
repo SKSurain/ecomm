@@ -9,6 +9,7 @@ import { Cart } from './pages/Cart'
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Homepage from './pages/Home';
 import Success from './pages/Success';
+import { useSelector } from 'react-redux';
 
 
 
@@ -18,7 +19,7 @@ body {
 }`
 function App() {
 
-  const user = true;
+  const user = useSelector(state => state.user.currentUser);
 
   return (
     <>
