@@ -8,6 +8,7 @@ import { Login } from './pages/Login'
 import { Cart } from './pages/Cart'
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Homepage from './pages/Home';
+import Success from './pages/Success';
 
 
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/product" element={<Product />} />
           <Route path="/product/:id" element={<Product />} />
+          <Route path="/success" element={<Success />} />
         </Routes>
       </Router>
     </>
