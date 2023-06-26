@@ -9,7 +9,8 @@ import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import { publicRequest } from '../requestMethods'
 import axios from 'axios'
-
+import { addProduct } from "../redux/cartRedux"
+import { useDispatch } from "react-redux"
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -96,6 +97,11 @@ export const Product = () => {
     const location = useLocation();
     const id = location.pathname.split("/")[2];
     const [product, setProduct] = useState({});
+    const [quantity, setQuantity] = useState(1);
+    const [color, setColor] = useState("")
+    const [size, setSize] = useState("")
+    const dispatch = useDispatch()
+
 
     useEffect(() => {
         const getProduct = async () => {
@@ -108,6 +114,21 @@ export const Product = () => {
         }
         getProduct();
     }, [id])
+
+    const handleQuantity = (type) => {
+        if (type === "dec" && quantity > 1) {
+            setQuantity(quantity - 1)
+        } else if (type === "inc" && quantity < 15) {
+            setQuantity(quantity + 1)
+        }
+    }
+
+    const handleClick = () => {
+        dispatch(addProduct({ ...product, quantity: quantity, color, size }))
+
+    }
+
+
     return (
         <Container>
             <Navbar />
@@ -133,32 +154,32 @@ export const Product = () => {
                             <FilterTitle>Color</FilterTitle>
                             {product.color ?
                                 product.color.map(c => (
-                                    <FilterColor color={c} key={c}></FilterColor>
+                                    <FilterColor color={c} key={c} onClick={() => setColor(c)}></FilterColor>
                                 )) :
-                                <FilterColor color='black'></FilterColor>}
+                                <FilterColor color='black' onClick={() => { setColor("black"); }}></FilterColor>}
                         </Filter>
                         <Filter>
                             <FilterTitle>Size</FilterTitle>
-                            <FilterSize>
+                            <FilterSize onClick={(e) => setSize(e.target.value)}>
                                 {product.size ?
                                     product.size.map(s => (
-                                        <FilterSizeOption key={s}>{s}</FilterSizeOption>
+                                        <FilterSizeOption key={s} >{s}</FilterSizeOption>
                                     )) : <FilterSizeOption>S</FilterSizeOption>}
                             </FilterSize>
                         </Filter>
                     </FilterContainer>
                     <AddContainer>
                         <AmountContainer>
-                            <Remove />
-                            <Amount>1</Amount>
-                            <Add />
+                            <Remove onClick={() => handleQuantity("dec")} />
+                            <Amount>{quantity}</Amount>
+                            <Add onClick={() => handleQuantity("inc")} />
                         </AmountContainer>
-                        <Button>ADD TO CART</Button>
+                        <Button onClick={handleClick}>ADD TO CART</Button>
                     </AddContainer>
                 </InfoContainer>
             </Wrapper>
             <Newsletter />
             <Footer />
-        </Container>
+        </Container >
     )
 }
