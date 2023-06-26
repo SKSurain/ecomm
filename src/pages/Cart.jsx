@@ -5,6 +5,13 @@ import { Newsletter } from '../components/Newsletter'
 import { Footer } from '../components/Footer'
 import { Add, Remove } from '@mui/icons-material';
 import { mobile } from '../responsive'
+import { useSelector } from 'react-redux';
+import StripeCheckout from 'react-stripe-checkout'
+import { useEffect, useState } from 'react';
+import { userRequest } from '../requestMethods';
+import { useNavigate } from 'react-router-dom';
+
+const KEY = process.env.REACT_APP_STRIPE;
 
 
 
@@ -117,6 +124,32 @@ font-weight: 600;`;
 
 
 export const Cart = () => {
+    const cart = useSelector(state => state.cart)
+    const [stripeToken, setStripeToken] = useState(null)
+    const history = useNavigate()
+    const handleClick = () => {
+        console.log("CLICKED")
+    }
+    const onToken = (token) => {
+        setStripeToken(token);
+    }
+
+    useEffect(() => {
+        const makeRequest = async () => {
+            try {
+                const res = await userRequest.post("checkout/payment", {
+                    tokenId: stripeToken.id,
+                    amount: cart.total * 100,
+                })
+                history("/success", { data: res.data })
+                console.log(res.data)
+
+            } catch (err) { console.log(err) }
+        };
+        stripeToken && cart.total >= 1 && makeRequest()
+    }, [stripeToken, cart.total, history])
+
+    const tryButton = async () => { }
     return (
         <Container>
             <Navbar />
@@ -124,7 +157,7 @@ export const Cart = () => {
             <Wrapper>
                 <Title>YOUR BAG</Title>
                 <Top>
-                    <TopButton>COUNTING SHOPPING</TopButton>
+                    <TopButton onClick={tryButton}>COUNTING SHOPPING</TopButton>
                     <TopTexts>
                         <TopText>Shopping Bag(2)</TopText>
                         <TopText>Your Wishlist</TopText>
@@ -134,51 +167,33 @@ export const Cart = () => {
                 </Top>
                 <Bottom>
                     <Info>
-                        <Product>
+                        {cart.products.map(product => (<Product key={product._id}>
                             <ProductDetail>
-                                <Image src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80"></Image>
+                                <Image src={product ? product.img : ""}></Image>
                                 <Details>
-                                    <ProductName><b>Product:</b> DENIM WHITE SNEAKER</ProductName>
-                                    <ProductId><b>ID:</b> 549859676</ProductId>
-                                    <ProductColor color="black" />
-                                    <ProductSize><b>Size:</b> 8</ProductSize>
+                                    <ProductName><b>Product:</b> {product ? product.title : ""}</ProductName>
+                                    <ProductId><b>ID:</b> {product ? product._id : ""}</ProductId>
+                                    <ProductColor color={product.color ? product.color : ""} />
+                                    <ProductSize><b>Size:</b> {product.size ? product.size : ""}</ProductSize>
                                 </Details>
                             </ProductDetail>
                             <PriceDetail>
                                 <ProductAmountContainer>
-                                    <Add />
-                                    <ProductAmount>1</ProductAmount>
-                                    <Remove />
+                                    <Add onClick={handleClick} />
+                                    <ProductAmount>{product ? product.quantity : ""}</ProductAmount>
+                                    <Remove onClick={handleClick} />
                                 </ProductAmountContainer>
-                                <ProductPrice>RM 145.00</ProductPrice>
+                                <ProductPrice>RM {product ? product.price * product.quantity : ""}</ProductPrice>
                             </PriceDetail>
-                        </Product>
-                        <Hr />
-                        <Product>
-                            <ProductDetail>
-                                <Image src="https://images.unsplash.com/photo-1575537302964-96cd47c06b1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"></Image>
-                                <Details>
-                                    <ProductName><b>Product:</b> PUMA LIMITED EDITION COLLECTION</ProductName>
-                                    <ProductId><b>ID:</b> 549854958</ProductId>
-                                    <ProductColor color="red" />
-                                    <ProductSize><b>Size:</b> 8</ProductSize>
-                                </Details>
-                            </ProductDetail>
-                            <PriceDetail>
-                                <ProductAmountContainer>
-                                    <Add />
-                                    <ProductAmount>1</ProductAmount>
-                                    <Remove />
-                                </ProductAmountContainer>
-                                <ProductPrice>RM 340.00</ProductPrice>
-                            </PriceDetail>
-                        </Product>
+                        </Product>))
+                        }
+                        < Hr />
                     </Info>
                     <Summary>
                         <SummaryTitle>ORDER SUMMARY</SummaryTitle>
                         <SummaryItem>
                             <SummaryItemText>Subtotal</SummaryItemText>
-                            <SummaryItemPrice>RM 485.00</SummaryItemPrice>
+                            <SummaryItemPrice>RM {cart.total}</SummaryItemPrice>
                         </SummaryItem>
                         <SummaryItem>
                             <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -191,7 +206,18 @@ export const Cart = () => {
                             <SummaryItemText>Total</SummaryItemText>
                             <SummaryItemPrice>RM 530.00</SummaryItemPrice>
                         </SummaryItem>
-                        <Button>CHECKOUT NOW</Button>
+                        <StripeCheckout
+                            name="BONDO12 CLOTHING"
+                            billingAddress
+                            shippingAddress
+                            description={`YOUR TOTAL IS RM${cart.total}`}
+                            amount={cart.total * 100}
+                            token={onToken}
+                            stripeKey={process.env.REACT_APP_STRIPE}
+                            currency="MYR"
+                        >
+                            <Button>CHECKOUT NOW</Button>
+                        </StripeCheckout>
                     </Summary>
                 </Bottom>
             </Wrapper>
