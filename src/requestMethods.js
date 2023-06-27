@@ -1,12 +1,32 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const BASE_URL = "http://localhost:5000/api/";
-const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0OTMyMzdjNzkwM2RmODhiZDdmZjMzYyIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY4NzY3MDkzMCwiZXhwIjoxNjg3OTMwMTMwfQ.gEXnlWnzE11dVs7_teHCqTApwUlWUN4afASFQ_5sRHM";
+
+// Function to get the token from local storage
+const getToken = () => {
+    const root = localStorage.getItem("persist:root");
+    if (root) {
+        const parsedRoot = JSON.parse(JSON.parse(root));
+        if (parsedRoot.user && parsedRoot.user.currentUser) {
+            return parsedRoot.user.currentUser.accessToken;
+        }
+    }
+    return null;
+}
+
 export const publicRequest = axios.create({
     baseURL: BASE_URL,
-})
+});
 
-export const userRequest = axios.create({
-    baseURL: BASE_URL,
-    header: { token: `Bearer ${TOKEN}` },
-})
+// Function to get axios instance with attached token
+export const userRequest = () => {
+    const TOKEN = getToken();
+    if (TOKEN) {
+        return axios.create({
+            baseURL: BASE_URL,
+            headers: { token: `Bearer ${TOKEN}` },
+        });
+    }
+    // Handle case when there is no token
+    throw new Error("User is not logged in");
+}
