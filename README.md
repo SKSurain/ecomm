@@ -1,5 +1,4 @@
-This project is based on the [admin dashboard project](https://github.com/LamaDevCom/admin-dashboard) by Lama Dev.
-
+This project is based on tutoring of Lama Dev.
 
 # Getting Started with Create React App
 
