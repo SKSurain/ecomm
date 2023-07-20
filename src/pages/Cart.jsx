@@ -157,7 +157,7 @@ export const Cart = () => {
             <Wrapper>
                 <Title>YOUR BAG</Title>
                 <Top>
-                    <TopButton onClick={tryButton}>COUNTING SHOPPING</TopButton>
+                    <TopButton onClick={tryButton}>COUNTINUE SHOPPING</TopButton>
                     <TopTexts>
                         <TopText>Shopping Bag(2)</TopText>
                         <TopText>Your Wishlist</TopText>
