@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { mobile } from '../responsive'
 import { useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
 height:60px;
@@ -63,8 +63,13 @@ ${mobile({ fontSize: "12px", margin: "10px" })};
 
 
 export const Navbar = () => {
-
     const quantity = useSelector(state => state.cart.quantity)
+    let navigate = useNavigate();
+
+    const handleClick = (pageName) => {
+        navigate(`/${pageName}`);
+    }
+
     return (
         <Container>
             <Wrapper>
@@ -77,8 +82,9 @@ export const Navbar = () => {
                 </Left>
                 <Center><Logo>BONDO12</Logo></Center>
                 <Right>
-                    <MenuItem>Register</MenuItem>
-                    <MenuItem>Sign In</MenuItem>
+                    <MenuItem onClick={() => handleClick('register')}>Register</MenuItem>
+                    <MenuItem onClick={() => handleClick('login')}>Login</MenuItem>
+                    <MenuItem onClick={() => handleClick('logout')}>Logout</MenuItem>
 
                     <NavLink to="/cart"
                         style={{
