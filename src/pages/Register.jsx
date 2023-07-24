@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { mobile } from '../responsive'
-
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
 width: 100vw;
@@ -40,8 +40,19 @@ border: none;
 background-color: teal;
 color:white;
 cursor:pointer;`;
+const Link = styled.div`
+width: 100%;
+margin: 5px 0px;
+font-size: 14px;
+text-decoration: underline;
+cursor:pointer;
+`;
 
 export const Register = () => {
+    let navigate = useNavigate();
+    const handleClick = () => {
+        navigate('/login')
+    }
     return (
         <Container>
             <Wrapper>
@@ -55,6 +66,8 @@ export const Register = () => {
                     <Input placeholder="confirm password" />
                     <Agreement>By creating this account, I consent to the processing of my personal data in accordance with the <b>PRIVACY POLICY</b></Agreement>
                     <Button>CREATE</Button>
+                    <Link onClick={handleClick}>Login</Link>
+
                 </Form>
             </Wrapper>
         </Container>
