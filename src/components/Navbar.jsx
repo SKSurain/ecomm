@@ -90,8 +90,6 @@ export const Navbar = () => {
                 </Left>
                 <Center><Logo>BONDO12</Logo></Center>
                 <Right>
-                    <MenuItem onClick={() => handleClick('register')}>Register</MenuItem>
-                    <MenuItem onClick={() => handleClick('login')}>Login</MenuItem>
                     <MenuItem onClick={() => handleClick('logout')}>Logout</MenuItem>
 
                     <NavLink to="/cart"
