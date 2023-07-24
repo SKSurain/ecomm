@@ -5,6 +5,8 @@ import styled from 'styled-components'
 import { mobile } from '../responsive'
 import { useSelector } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch } from "react-redux"
+import { logout } from '../redux/apiCalls'
 
 const Container = styled.div`
 height:60px;
@@ -65,9 +67,15 @@ ${mobile({ fontSize: "12px", margin: "10px" })};
 export const Navbar = () => {
     const quantity = useSelector(state => state.cart.quantity)
     let navigate = useNavigate();
+    const dispatch = useDispatch()
+
 
     const handleClick = (pageName) => {
-        navigate(`/${pageName}`);
+        if (pageName === 'logout') {
+            logout(dispatch);
+        } else {
+            navigate(`/${pageName}`);
+        }
     }
 
     return (
