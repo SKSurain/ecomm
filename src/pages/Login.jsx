@@ -3,6 +3,7 @@ import { mobile } from '../responsive'
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { login } from '../redux/apiCalls'
+import { useNavigate } from 'react-router-dom'
 const Container = styled.div`
 width: 100vw;
 height: 100vh;
@@ -59,9 +60,13 @@ export const Login = () => {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch()
     const { isFetching, error } = useSelector((state) => state.user)
+    let navigate = useNavigate();
     const handleClick = (e) => {
         e.preventDefault();
         login(dispatch, { username, password })
+    }
+    const handleRegister = () => {
+        navigate('/register');
     }
     return (
         <Container>
@@ -73,7 +78,7 @@ export const Login = () => {
                     <Button onClick={handleClick} disabled={isFetching} >LOGIN</Button>
                     {error && <Error>SOMETHING WENT WRONG</Error>}
                     <Link>FORGOT PASSWORD?</Link>
-                    <Link>Create A NEW ACCOUNT</Link>
+                    <Link onClick={handleRegister}>Create A NEW ACCOUNT</Link>
                 </Form>
             </Wrapper>
         </Container>
